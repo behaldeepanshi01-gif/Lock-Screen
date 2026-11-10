@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEF Canada Prep • Doodle Lock Screen & Run of Show</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Short Stack & Architects Daughter (Doodle Style) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Short+Stack&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti JS -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            doodle: {
+              bg: '#FFFFFF',
+              card: '#FFFFFF',
+              border: '#000000',
+              muted: '#4A4A4A',
+              light: '#F2F2F2',
+              dark: '#121212',
+            }
+          },
+          fontFamily: {
+            heading: ['Architects Daughter', 'cursive'],
+            sans: ['Short Stack', 'cursive'],
+          },
+          boxShadow: {
+            'doodle': '3px 4px 0px #000000',
+            'doodle-lg': '5px 6px 0px #000000',
+            'doodle-sm': '2px 2px 0px #000000',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Short Stack', cursive;
+      -webkit-tap-highlight-color: transparent;
+      background-image: radial-gradient(#000000 0.75px, transparent 0.75px);
+      background-size: 16px 16px;
+      background-attachment: fixed;
+    }
+    .font-title {
+      font-family: 'Architects Daughter', cursive;
+    }
+    .touch-target {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    .doodle-box {
+      border: 2.5px solid #000000;
+      border-radius: 18px 22.5px 16.5px 25.5px/22.5px 16.5px 25.5px 18px;
+    }
+    .doodle-pill {
+      border: 2px solid #000000;
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    }
+    .doodle-tilt-left {
+      transform: rotate(-0.75deg);
+    }
+    .doodle-tilt-right {
+      transform: rotate(0.65deg);
+    }
+    .sentence-over-limit {
+      background-color: #000000;
+      color: #FFFFFF;
+      border-radius: 4px;
+      padding: 0 4px;
+    }
+    .lock-height-container {
+      height: 100vh;
+      height: 100dvh;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        transform: none !important;
+      }
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FFFFFF;
+      border-left: 2px solid #000;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #000000;
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col justify-between overflow-x-hidden selection:bg-black selection:text-white">
+
+  <!-- VIEW 1: LOCK SCREEN MODE (DEFAULT) -->
+  <div id="view-lockscreen" class="w-full lock-height-container flex items-center justify-center p-0 sm:p-4">
+    <!-- 9:19.5 PHONE CONTAINER -->
+    <div class="relative w-full max-w-md h-full sm:min-h-[844px] sm:h-[844px] bg-doodle-bg doodle-box shadow-doodle-lg flex flex-col justify-between p-4 sm:p-5 overflow-hidden select-none">
+      
+      <!-- TOP TOGGLE PILL -->
+      <div id="lock-toggle-bar" class="absolute top-3 right-4 z-20 flex items-center space-x-2">
+        <button onclick="switchView('app')" class="px-3.5 py-1.5 doodle-pill bg-white text-xs font-title font-bold text-black shadow-doodle-sm hover:bg-doodle-light active:translate-y-0.5 transition-all touch-target flex items-center gap-1">
+          <span>📲 open app checklist</span>
+        </button>
+      </div>
+
+      <!-- ITEM 1: TOP 30% EMPTY / PREVIEW CLOCK AREA (Flex-shrink: 0) -->
+      <div class="h-[30%] flex-shrink-0 flex flex-col items-center justify-center pt-2 text-center space-y-0.5">
+        <div id="preview-clock-container" class="opacity-60 transition-opacity">
+          <div id="preview-clock-time" class="font-title font-extrabold text-5xl sm:text-6xl text-black tracking-tight">9:41</div>
+          <div id="preview-clock-date" class="text-sm font-semibold text-doodle-muted">Tuesday, November 10</div>
+          <span class="text-[10px] font-title font-bold uppercase tracking-widest text-black border border-black px-2 py-0.5 rounded-full mt-1 inline-block">preview only</span>
+        </div>
+      </div>
+
+      <!-- ITEM 2: COMPACT MIDDLE CONTENT AREA WITH EMBEDDED CHECKLIST -->
+      <div class="flex-1 flex flex-col justify-around py-1 px-1 space-y-1.5 overflow-hidden">
+        
+        <!-- HEADER & COUNTDOWN PILL -->
+        <div class="text-center space-y-1">
+          <span class="text-[10px] font-title font-bold uppercase tracking-widest text-black border-2 border-black px-3 py-0.5 rounded-full inline-block">RUN OF SHOW · MY FRENCH EXAM PLAN</span>
+          <h1 class="font-title font-extrabold text-2xl sm:text-3xl text-black tracking-tight leading-tight">Midnight Service · Dec 31</h1>
+          <p class="text-xs font-title font-bold text-doodle-muted">TEF Canada · Target NCLC 7</p>
+          
+          <!-- BIG COUNTDOWN PILL -->
+          <div class="inline-block bg-white border-2 border-black px-5 py-1.5 rounded-full shadow-doodle-sm doodle-tilt-left mt-0.5">
+            <span id="lock-countdown-pill" class="font-title font-extrabold text-lg sm:text-xl text-black">51 days to go</span>
+          </div>
+
+          <!-- EMBEDDED INTERACTIVE DAILY CHECKLIST ON LOCKSCREEN -->
+          <div id="lock-checklist-container" class="mt-2 text-left bg-white doodle-box p-3 shadow-doodle-sm space-y-1.5 border-2 border-black">
+            <div class="flex items-center justify-between border-b-2 border-black pb-1">
+              <span class="text-[10px] font-title font-bold uppercase tracking-wider text-black">⚡ today's checklist</span>
+              <span id="lock-checklist-progress" class="text-[10px] font-bold text-black border border-black px-2 py-0.2 rounded-full">0/3</span>
+            </div>
+            <div id="lock-checklist-items" class="space-y-1.5 text-xs">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 MILESTONES WITH STAGE TAGS BELOW -->
+        <div id="lock-milestones-container" class="space-y-1 my-auto">
+          <!-- Injected via JS -->
+        </div>
+
+        <!-- 5 PROGRESS DOTS ROW -->
+        <div class="flex items-center justify-center space-x-2 text-xs font-title font-bold text-black py-0.5">
+          <span id="lock-dots-display" class="tracking-widest text-base leading-none">○○○○○</span>
+          <span id="lock-dots-count" class="text-xs font-bold text-black">0 of 5 done</span>
+        </div>
+
+        <!-- SECTION CHIPS (CE, CO, EE, EO) -->
+        <div class="flex justify-center items-center space-x-2 pt-0.5">
+          <span class="text-xs font-title font-bold px-3 py-0.5 doodle-pill bg-white text-black">CE</span>
+          <span class="text-xs font-title font-bold px-3 py-0.5 doodle-pill bg-black text-white">CO★</span>
+          <span class="text-xs font-title font-bold px-3 py-0.5 doodle-pill bg-black text-white">EE★</span>
+          <span class="text-xs font-title font-bold px-3 py-0.5 doodle-pill bg-white text-black">EO</span>
+        </div>
+      </div>
+
+      <!-- ITEM 5: BOTTOM 10% EMPTY SPACE (Flex-shrink: 0) -->
+      <div class="h-[10%] flex-shrink-0 flex items-end justify-center pb-1">
+        <!-- Kept clean for device swipe bar / camera cutout -->
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 2: FULL TABBED APP MODE -->
+  <div id="view-app" class="hidden h-full flex flex-col justify-between min-h-screen">
+    
+    <!-- TOP APP BAR -->
+    <header class="bg-white border-b-2 border-black px-4 py-3 sticky top-0 z-30 flex items-center justify-between shadow-doodle-sm">
+      <div class="flex items-center space-x-2.5">
+        <div class="w-9 h-9 border-2 border-black rounded-xl bg-white text-black flex items-center justify-center font-title font-bold text-base shadow-doodle-sm doodle-tilt-left">
+          ✏️
+        </div>
+        <div>
+          <h1 class="font-title font-bold text-black text-lg leading-tight tracking-tight">Midnight Service · Dec 31</h1>
+          <p class="text-xs text-doodle-muted">TEF Canada • Target NCLC 7</p>
+        </div>
+      </div>
+      
+      <!-- CONTROLS -->
+      <div class="flex items-center space-x-2">
+        <button onclick="switchView('lock')" class="touch-target px-3 py-1.5 doodle-pill bg-white text-xs font-title font-bold text-black hover:bg-doodle-light active:translate-y-0.5 transition-all shadow-doodle-sm">
+          🔒 lock screen
+        </button>
+        <button onclick="openLinksModal()" class="touch-target px-2.5 py-1.5 border-2 border-black rounded-xl bg-white text-xs text-black hover:bg-doodle-light active:translate-y-0.5 transition-all shadow-doodle-sm" title="My study links & backup">
+          ⚙️
+        </button>
+        <button onclick="openWallpaperModal()" class="touch-target px-3 py-1.5 border-2 border-black rounded-xl bg-black text-xs font-title font-bold text-white hover:bg-doodle-dark active:translate-y-0.5 transition-all shadow-doodle-sm">
+          🖼️ wallpaper
+        </button>
+        <button id="sound-toggle-btn" onclick="toggleSound()" class="touch-target p-2 border-2 border-black rounded-xl bg-white text-xs text-black hover:bg-doodle-light active:translate-y-0.5 transition-all shadow-doodle-sm">
+          <span id="sound-icon">🔇</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-1 max-w-md w-full mx-auto px-4 py-4 pb-28 overflow-y-auto space-y-4">
+
+      <!-- HOME TAB -->
+      <section id="tab-home" class="tab-content space-y-6">
+        
+        <div class="h-[18vh] flex flex-col justify-end items-center text-center">
+          <div class="inline-flex items-center space-x-1 px-3 py-1 doodle-pill bg-white text-black text-xs font-bold border-2 border-black mb-2 shadow-doodle-sm doodle-tilt-right">
+            <span>✏️</span>
+            <span>daily doodle plan</span>
+          </div>
+          <h2 class="font-title text-3xl font-extrabold text-black tracking-tight">breathe & draw progress</h2>
+          <p class="text-xs text-doodle-muted mt-1">no stress, just consistent tiny steps</p>
+        </div>
+
+        <!-- WALLPAPER AGE BANNER -->
+        <div id="wallpaper-age-banner" class="bg-white doodle-box p-3.5 shadow-doodle flex items-center justify-between text-xs border-2 border-black">
+          <div class="flex items-center space-x-2">
+            <span class="text-lg">🖼️</span>
+            <span id="wallpaper-age-text" class="font-bold text-black">loading wallpaper status...</span>
+          </div>
+          <button onclick="openWallpaperModal()" class="px-2.5 py-1 bg-black text-white font-title font-bold text-[11px] rounded-lg shadow-doodle-sm hover:bg-doodle-dark active:translate-y-0.5 transition-all">
+            refresh
+          </button>
+        </div>
+
+        <!-- SUNDAY CHECK-IN CARD (SUNDAYS ONLY) -->
+        <div id="sunday-checkin-card" class="hidden bg-white doodle-box p-5 shadow-doodle space-y-3.5 border-2 border-black doodle-tilt-left">
+          <div class="flex items-center justify-between border-b-2 border-black pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-lg">🍵</span>
+              <h3 class="font-title font-bold text-black text-lg">sunday check-in</h3>
+            </div>
+            <span class="text-[10px] font-title font-bold bg-black text-white px-2 py-0.5 rounded-full">weekly reset</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <!-- Question 1: Weakest section -->
+            <div class="space-y-1.5">
+              <p class="font-bold text-black">1. Which section felt weakest this week?</p>
+              <div class="grid grid-cols-4 gap-1.5">
+                <button onclick="logSundayWeakSection('CE')" id="btn-sunday-ce" class="p-2 border-2 border-black rounded-xl font-title font-bold hover:bg-black hover:text-white transition-all bg-white text-black">CE</button>
+                <button onclick="logSundayWeakSection('CO')" id="btn-sunday-co" class="p-2 border-2 border-black rounded-xl font-title font-bold hover:bg-black hover:text-white transition-all bg-white text-black">CO</button>
+                <button onclick="logSundayWeakSection('EE')" id="btn-sunday-ee" class="p-2 border-2 border-black rounded-xl font-title font-bold hover:bg-black hover:text-white transition-all bg-white text-black">EE</button>
+                <button onclick="logSundayWeakSection('EO')" id="btn-sunday-eo" class="p-2 border-2 border-black rounded-xl font-title font-bold hover:bg-black hover:text-white transition-all bg-white text-black">EO</button>
+              </div>
+              <p id="sunday-weak-logged-msg" class="text-[11px] text-doodle-muted font-bold italic hidden">logged for this week!</p>
+            </div>
+
+            <!-- Question 2: Log a mock score -->
+            <div class="pt-1 border-t-2 border-black flex items-center justify-between">
+              <span class="font-bold text-black">2. Log a mock score:</span>
+              <button onclick="showTab('log')" class="px-3 py-1.5 bg-black text-white font-title font-bold text-xs rounded-xl hover:bg-doodle-dark active:translate-y-0.5 transition-all shadow-doodle-sm">
+                open log tab →
+              </button>
+            </div>
+
+            <!-- Question 3: Reschedule milestone -->
+            <div class="pt-1 border-t-2 border-black flex items-center justify-between">
+              <span class="font-bold text-black">3. Does any milestone date need to move?</span>
+              <button onclick="triggerSundayReschedule()" class="px-3 py-1.5 bg-white border-2 border-black text-black font-title font-bold text-xs rounded-xl hover:bg-doodle-light active:translate-y-0.5 transition-all shadow-doodle-sm">
+                adjust next date 📅
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- DAYS SHOWED UP CARD (TILTED) -->
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-4 doodle-tilt-right">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="font-title font-bold text-black text-lg">days I showed up</h3>
+              <p class="text-xs text-doodle-muted">resets every monday • quiet momentum</p>
+            </div>
+            <button onclick="markRestDay()" class="touch-target px-3 py-1.5 border-2 border-black rounded-xl bg-white text-black text-xs font-bold hover:bg-doodle-light active:translate-y-0.5 transition-all flex items-center gap-1 shadow-doodle-sm">
+              <span>🍵</span> rest day
+            </button>
+          </div>
+
+          <div class="flex justify-between items-center px-2 py-1" id="week-dots-container">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+        <!-- TODAY'S 3 TASKS CARD -->
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-4">
+          <div class="flex justify-between items-center border-b-2 border-black pb-3">
+            <div>
+              <span class="text-[10px] font-title font-bold uppercase tracking-wider text-white bg-black px-2.5 py-0.5 rounded-full">today</span>
+              <h3 class="font-title font-bold text-black text-xl mt-1" id="today-date-str">loading...</h3>
+            </div>
+            <div class="text-xs text-black font-bold border-2 border-black px-3 py-1 rounded-full" id="task-progress-count">
+              0 of 3 done
+            </div>
+          </div>
+
+          <div class="w-full bg-doodle-light h-3 border-2 border-black rounded-full overflow-hidden">
+            <div id="today-progress-bar" class="bg-black h-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+
+          <div id="today-tasks-container" class="space-y-2.5">
+            <!-- Tasks injected via JS -->
+          </div>
+
+          <p id="today-microcopy" class="text-xs text-doodle-muted italic text-center pt-1">
+            next small step: pick one task above when ready ✨
+          </p>
+        </div>
+
+        <!-- NEXT MILESTONE ONLY CARD (TILTED) -->
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-3 doodle-tilt-left">
+          <div class="flex justify-between items-center border-b-2 border-black pb-2.5">
+            <h3 class="font-title font-bold text-black text-base">next milestone</h3>
+            <button onclick="showTab('milestones')" class="text-xs font-bold text-black hover:underline">view all 5 →</button>
+          </div>
+
+          <div id="next-milestone-box">
+            <!-- Next single milestone injected here via JS -->
+          </div>
+        </div>
+
+        <div class="h-[10vh]"></div>
+      </section>
+
+      <!-- MILESTONES TAB -->
+      <section id="tab-milestones" class="tab-content hidden space-y-5">
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h2 class="font-title font-bold text-black text-2xl">all 5 milestones</h2>
+              <p class="text-xs text-doodle-muted">your overall roadmap at a glance</p>
+            </div>
+            <span id="service-complete-banner" class="hidden text-xs font-title font-bold bg-black text-white px-3 py-1 rounded-full border-2 border-black">
+              service complete 🌟
+            </span>
+          </div>
+
+          <div class="flex items-center space-x-3 bg-doodle-light p-3 border-2 border-black rounded-xl">
+            <div class="flex-1 bg-white h-3 rounded-full border-2 border-black overflow-hidden">
+              <div id="overall-milestone-bar" class="bg-black h-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <span id="milestone-progress-text" class="text-xs font-title font-bold text-black">0 of 5 done</span>
+          </div>
+
+          <div id="milestones-container" class="space-y-3">
+            <!-- All 5 milestones injected via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- EE TAB -->
+      <section id="tab-ee" class="tab-content hidden space-y-5">
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-4">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[10px] font-title font-bold uppercase tracking-wider text-white bg-black px-2.5 py-0.5 rounded-full">priority #1</span>
+              <h2 class="font-title font-bold text-black text-2xl mt-1">expression écrite</h2>
+            </div>
+            <div class="text-right">
+              <span id="timer-display" class="font-title font-bold text-2xl text-black">20:00</span>
+              <p class="text-[10px] text-doodle-muted">smooth limit</p>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-2 p-1.5 bg-doodle-light border-2 border-black rounded-2xl">
+            <button id="btn-sec-a" onclick="switchEESection('A')" class="touch-target border-2 border-black rounded-xl font-title font-bold text-xs py-2.5 transition-all bg-white text-black shadow-doodle-sm">
+              section A (faits divers)
+            </button>
+            <button id="btn-sec-b" onclick="switchEESection('B')" class="touch-target border-2 border-transparent rounded-xl font-title font-bold text-xs py-2.5 transition-all text-doodle-muted hover:text-black">
+              section B (essai d'opinion)
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-title font-bold text-black text-base flex items-center gap-1.5">
+              <span>📝</span> scratch paper ritual
+            </h3>
+            <span id="ritual-status" class="text-[11px] font-bold text-black border-2 border-black px-2.5 py-0.5 rounded-full">step 1 first</span>
+          </div>
+          <p class="text-xs text-doodle-muted">check all 4 to unlock the timer:</p>
+          
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="flex items-center space-x-2 bg-doodle-light p-3 border-2 border-black rounded-xl cursor-pointer touch-target">
+              <input type="checkbox" id="rit-qui" onchange="checkRitualCompletion()" class="rounded text-black focus:ring-black w-4 h-4 accent-black">
+              <span class="font-bold text-black">1. QUI</span>
+            </label>
+            <label class="flex items-center space-x-2 bg-doodle-light p-3 border-2 border-black rounded-xl cursor-pointer touch-target">
+              <input type="checkbox" id="rit-quoi" onchange="checkRitualCompletion()" class="rounded text-black focus:ring-black w-4 h-4 accent-black">
+              <span class="font-bold text-black">2. QUOI</span>
+            </label>
+            <label class="flex items-center space-x-2 bg-doodle-light p-3 border-2 border-black rounded-xl cursor-pointer touch-target">
+              <input type="checkbox" id="rit-ou" onchange="checkRitualCompletion()" class="rounded text-black focus:ring-black w-4 h-4 accent-black">
+              <span class="font-bold text-black">3. OÙ-QUAND</span>
+            </label>
+            <label class="flex items-center space-x-2 bg-doodle-light p-3 border-2 border-black rounded-xl cursor-pointer touch-target">
+              <input type="checkbox" id="rit-template" onchange="checkRitualCompletion()" class="rounded text-black focus:ring-black w-4 h-4 accent-black">
+              <span class="font-bold text-black">4. TEMPLATE</span>
+            </label>
+          </div>
+
+          <div class="pt-3 space-y-3 border-t-2 border-black">
+            <div class="w-full bg-doodle-light border-2 border-black h-3 rounded-full overflow-hidden">
+              <div id="timer-bar-fill" class="bg-black h-full transition-all duration-1000" style="width: 100%"></div>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <label for="timer-min-input" class="text-xs text-doodle-muted font-bold">minutes:</label>
+                <input type="number" id="timer-min-input" value="20" min="1" max="60" class="w-14 p-1.5 text-center bg-white border-2 border-black rounded-xl text-xs font-title font-bold text-black" onchange="updateTimerMinutes(this.value)">
+              </div>
+              <button id="btn-start-timer" onclick="toggleTimer()" disabled class="touch-target border-2 border-black bg-doodle-light text-doodle-muted font-title font-bold text-xs px-5 py-2.5 rounded-xl transition-all cursor-not-allowed">
+                start timer
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROMPT & REQUIRED NAMES CHECK -->
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-3">
+          <div>
+            <label class="block text-xs font-title font-bold text-black mb-1">paste consigne here:</label>
+            <textarea id="ee-consigne" rows="2" placeholder="e.g. Continuez le texte en racontant la suite..." class="w-full text-xs p-3 bg-white border-2 border-black rounded-xl focus:outline-none"></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-title font-bold text-black mb-1">required names/events:</label>
+              <input type="text" id="ee-required" placeholder="e.g. Jean, tempête" oninput="validateEEText()" class="w-full text-xs p-2.5 bg-white border-2 border-black rounded-xl focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-title font-bold text-black mb-1">forbidden leak guard:</label>
+              <input type="text" id="ee-forbidden" placeholder="e.g. Marie, incendie" oninput="validateEEText()" class="w-full text-xs p-2.5 bg-white border-2 border-black rounded-xl focus:outline-none">
+            </div>
+          </div>
+        </div>
+
+        <div id="ee-warning-box" class="hidden bg-black text-white p-4 doodle-box text-xs space-y-1.5 shadow-doodle">
+          <p class="font-title font-bold flex items-center gap-1.5 text-sm">
+            <span>💡</span> heads up warning:
+          </p>
+          <ul id="ee-warning-list" class="list-disc pl-5 space-y-1"></ul>
+        </div>
+
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-3">
+          <div class="flex justify-between items-center">
+            <label class="text-xs font-title font-bold text-black">writing canvas (~12 words/sentence max):</label>
+            <div class="text-xs font-title font-bold border-2 border-black px-3 py-1 rounded-full text-black">
+              words: <span id="ee-word-count" class="font-bold">0</span>
+            </div>
+          </div>
+
+          <textarea id="ee-editor" rows="6" placeholder="type your response calmly here..." oninput="handleEETextInput()" class="w-full text-xs p-3.5 bg-white border-2 border-black rounded-xl focus:outline-none leading-relaxed font-sans"></textarea>
+
+          <div class="border-t-2 border-black pt-3">
+            <p class="text-[11px] font-title font-bold text-black mb-1">sentence length check (&gt;12 words highlighted in black):</p>
+            <div id="ee-analysis-view" class="min-h-[50px] p-3 bg-doodle-light border-2 border-black rounded-xl text-xs leading-relaxed text-black break-words">
+              <span class="text-doodle-muted italic">your text visual structure will appear here...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white doodle-box p-4 text-xs space-y-2 shadow-doodle">
+          <p class="font-title font-bold text-black flex items-center gap-1.5">
+            <span>🌿</span> quick reminder: passé composé only!
+          </p>
+          <div class="grid grid-cols-2 gap-2 text-doodle-muted text-[11px]">
+            <div>• <span class="line-through text-black">prit</span> ➔ <strong class="text-black">a pris</strong></div>
+            <div>• <span class="line-through text-black">fut</span> ➔ <strong class="text-black">a été</strong></div>
+            <div>• <span class="line-through text-black">se révéla</span> ➔ <strong class="text-black">s'est révélé</strong></div>
+            <div>• <span class="line-through text-black">décida</span> ➔ <strong class="text-black">a décidé</strong></div>
+          </div>
+        </div>
+
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-3">
+          <h3 class="font-title font-bold text-black text-xs uppercase tracking-wider">3-pass proofreading check</h3>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <label class="flex flex-col items-center justify-center p-2.5 bg-doodle-light border-2 border-black rounded-xl text-center cursor-pointer touch-target">
+              <input type="checkbox" id="rel-verbes" class="rounded text-black mb-1 w-4 h-4 accent-black">
+              <span class="font-bold text-black">1. verbes</span>
+              <span class="text-[10px] text-doodle-muted">être / avoir</span>
+            </label>
+            <label class="flex flex-col items-center justify-center p-2.5 bg-doodle-light border-2 border-black rounded-xl text-center cursor-pointer touch-target">
+              <input type="checkbox" id="rel-fem" class="rounded text-black mb-1 w-4 h-4 accent-black">
+              <span class="font-bold text-black">2. féminins</span>
+              <span class="text-[10px] text-doodle-muted">accord e / es</span>
+            </label>
+            <label class="flex flex-col items-center justify-center p-2.5 bg-doodle-light border-2 border-black rounded-xl text-center cursor-pointer touch-target">
+              <input type="checkbox" id="rel-accents" class="rounded text-black mb-1 w-4 h-4 accent-black">
+              <span class="font-bold text-black">3. accents</span>
+              <span class="text-[10px] text-doodle-muted">é, è, à, ou</span>
+            </label>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- CO TAB -->
+      <section id="tab-co" class="tab-content hidden space-y-5">
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-4">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[10px] font-title font-bold uppercase tracking-wider text-white bg-black px-2.5 py-0.5 rounded-full">priority #2</span>
+              <h2 class="font-title font-bold text-black text-2xl mt-1">compréhension orale</h2>
+            </div>
+            <span class="text-xs border-2 border-black px-3 py-1 rounded-full text-black font-bold">10 words/day goal</span>
+          </div>
+
+          <div class="p-4 bg-doodle-light border-2 border-black rounded-xl space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="flex items-center space-x-2.5 cursor-pointer touch-target">
+                <input type="checkbox" id="co-rfi-check" onchange="toggleRFICheck()" class="rounded text-black focus:ring-black w-5 h-5 accent-black">
+                <span class="font-title font-bold text-xs text-black">rfi journal listened today</span>
+              </label>
+            </div>
+
+            <!-- CO WORDS LIST STARTS EMPTY -->
+            <div class="space-y-2">
+              <div class="flex space-x-2">
+                <input type="text" id="co-word-input" placeholder="add a new word..." class="flex-1 text-xs p-2.5 bg-white border-2 border-black rounded-xl focus:outline-none">
+                <button onclick="addCOWord()" class="touch-target px-4 py-2 bg-black text-white font-title font-bold text-xs rounded-xl shadow-doodle-sm hover:bg-doodle-dark transition-all">
+                  add
+                </button>
+              </div>
+              <div id="co-words-list" class="flex flex-wrap gap-1.5 pt-1">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAPPABLE POST-LISTENING AUDIT QUESTIONS -->
+          <div class="border-t-2 border-black pt-3 space-y-3">
+            <h3 class="font-title font-bold text-black text-sm">post-listening check (tap to log mistake):</h3>
+            
+            <div class="space-y-3 text-xs">
+              <!-- Purpose selector -->
+              <div class="p-3 bg-doodle-light border-2 border-black rounded-xl space-y-2">
+                <p class="font-bold text-black">1. Speaker's Purpose:</p>
+                <div class="grid grid-cols-2 gap-1.5">
+                  <button onclick="selectCOOption('purpose', 'inform')" id="co-opt-inform" class="p-2 rounded-xl border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all text-left font-bold">inform</button>
+                  <button onclick="selectCOOption('purpose', 'persuade')" id="co-opt-persuade" class="p-2 rounded-xl border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all text-left font-bold">persuade</button>
+                  <button onclick="selectCOOption('purpose', 'warn')" id="co-opt-warn" class="p-2 rounded-xl border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all text-left font-bold">warn</button>
+                  <button onclick="selectCOOption('purpose', 'explain')" id="co-opt-explain" class="p-2 rounded-xl border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all text-left font-bold">explain</button>
+                </div>
+                <button onclick="tallyCOError('purpose')" class="w-full mt-1 py-1.5 bg-black text-white font-title font-bold rounded-xl border-2 border-black hover:bg-doodle-dark transition-all text-[11px]">
+                  ⚡ confused purpose vs content? tap to log
+                </button>
+              </div>
+
+              <!-- Opinion selector -->
+              <div class="p-3 bg-doodle-light border-2 border-black rounded-xl space-y-2">
+                <p class="font-bold text-black">2. Opinion Type:</p>
+                <div class="grid grid-cols-2 gap-1.5">
+                  <button onclick="selectCOOption('opinion', 'absolute')" id="co-opt-absolute" class="p-2 rounded-xl border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all text-left font-bold">absolute (always)</button>
+                  <button onclick="selectCOOption('opinion', 'conditional')" id="co-opt-conditional" class="p-2 rounded-xl border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all text-left font-bold">conditional (could)</button>
+                </div>
+                <button onclick="tallyCOError('conditional')" class="w-full mt-1 py-1.5 bg-black text-white font-title font-bold rounded-xl border-2 border-black hover:bg-doodle-dark transition-all text-[11px]">
+                  ⚡ confused absolute vs conditional? tap to log
+                </button>
+              </div>
+
+              <!-- Keyword Trap button -->
+              <div class="p-3 bg-doodle-light border-2 border-black rounded-xl flex items-center justify-between">
+                <div>
+                  <p class="font-bold text-black">3. Keyword Distractor Trap</p>
+                  <p class="text-[10px] text-doodle-muted">fell for repeated background words</p>
+                </div>
+                <button onclick="tallyCOError('keyword')" class="touch-target px-3 py-1.5 bg-black text-white font-title font-bold rounded-xl border-2 border-black hover:bg-doodle-dark transition-all text-xs">
+                  log trap
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t-2 border-black pt-3 space-y-3">
+            <h3 class="font-title font-bold text-black text-sm">error pattern tally:</h3>
+
+            <div class="p-3 bg-doodle-light border-2 border-black rounded-xl space-y-2 text-xs">
+              <div class="space-y-1.5">
+                <div class="flex items-center text-[11px]">
+                  <span class="w-24 text-black font-bold">keyword (<span id="tally-keyword-count">0</span>)</span>
+                  <div class="flex-1 bg-white h-3 border-2 border-black rounded-full overflow-hidden">
+                    <div id="bar-keyword" class="bg-black h-full transition-all" style="width: 0%"></div>
+                  </div>
+                </div>
+                <div class="flex items-center text-[11px]">
+                  <span class="w-24 text-black font-bold">purpose (<span id="tally-purpose-count">0</span>)</span>
+                  <div class="flex-1 bg-white h-3 border-2 border-black rounded-full overflow-hidden">
+                    <div id="bar-purpose" class="bg-black h-full transition-all" style="width: 0%"></div>
+                  </div>
+                </div>
+                <div class="flex items-center text-[11px]">
+                  <span class="w-24 text-black font-bold">absolute/cond (<span id="tally-conditional-count">0</span>)</span>
+                  <div class="flex-1 bg-white h-3 border-2 border-black rounded-full overflow-hidden">
+                    <div id="bar-conditional" class="bg-black h-full transition-all" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CE TAB -->
+      <section id="tab-ce" class="tab-content hidden space-y-5">
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-4">
+          <div>
+            <span class="text-[10px] font-title font-bold uppercase tracking-wider text-black border-2 border-black px-2.5 py-0.5 rounded-full">light maintenance</span>
+            <h2 class="font-title font-bold text-black text-2xl mt-1">compréhension écrite</h2>
+          </div>
+
+          <div class="p-4 bg-doodle-light border-2 border-black rounded-xl space-y-1.5">
+            <span class="text-[10px] font-title font-bold uppercase tracking-wider text-doodle-muted">theme of the day</span>
+            <h3 id="ce-theme-title" class="font-title font-bold text-lg text-black">loading theme...</h3>
+            <p id="ce-theme-desc" class="text-xs text-doodle-muted">focus vocabulary and speed reading for this domain.</p>
+          </div>
+
+          <div class="space-y-3">
+            <label class="flex items-center space-x-3 p-3 bg-doodle-light border-2 border-black rounded-xl cursor-pointer touch-target">
+              <input type="checkbox" id="ce-anki-check" onchange="toggleCEAnki()" class="rounded text-black focus:ring-black w-5 h-5 accent-black">
+              <span class="text-xs font-bold text-black">anki themed cards reviewed (15m)</span>
+            </label>
+
+            <div class="p-4 bg-doodle-light border-2 border-black rounded-xl space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-title font-bold text-black">timed reading passage</span>
+                <span id="ce-timer-display" class="font-title font-bold text-lg text-black">15:00</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <input type="number" id="ce-timer-input" value="15" min="1" max="60" class="w-16 p-1.5 text-center bg-white border-2 border-black rounded-xl text-xs font-title font-bold" onchange="setCETimer(this.value)">
+                <button id="btn-ce-timer" onclick="toggleCETimer()" class="touch-target px-4 py-2 bg-black text-white font-title font-bold text-xs rounded-xl hover:bg-doodle-dark transition-all">
+                  start reading
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EO TAB -->
+      <section id="tab-eo" class="tab-content hidden space-y-5">
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-4">
+          <div>
+            <span class="text-[10px] font-title font-bold uppercase tracking-wider text-black border-2 border-black px-2.5 py-0.5 rounded-full">speaking maintenance</span>
+            <h2 class="font-title font-bold text-black text-2xl mt-1">expression orale</h2>
+          </div>
+
+          <div class="p-4 bg-doodle-light border-2 border-black rounded-xl space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-[10px] font-title font-bold uppercase tracking-wider text-black">section B prompt generator</span>
+              <button onclick="generateEOTopic()" class="touch-target px-3 py-1 bg-black text-white font-title font-bold text-xs rounded-xl hover:bg-doodle-dark transition-all shadow-doodle-sm">
+                🎲 random topic
+              </button>
+            </div>
+            <div id="eo-topic-display" class="p-3 bg-white rounded-xl text-xs font-bold text-black border-2 border-black min-h-[44px] flex items-center">
+              tap "random topic" to draw a Section B argument theme.
+            </div>
+          </div>
+
+          <div class="p-4 bg-doodle-light border-2 border-black rounded-xl space-y-2 text-xs">
+            <h3 class="font-title font-bold text-black">section B argument template:</h3>
+            <ol class="list-decimal pl-4 space-y-1 text-doodle-muted">
+              <li><strong class="text-black">ACCROCHE:</strong> smooth opening statement</li>
+              <li><strong class="text-black">ARGUMENT 1 (PLAISIR):</strong> personal enjoyment / benefit</li>
+              <li><strong class="text-black">ARGUMENT 2 (PRATIQUE):</strong> convenience / financial gain</li>
+              <li><strong class="text-black">ARGUMENT 3 (HUMAIN):</strong> social impact / family</li>
+              <li><strong class="text-black">OBJECTION RESPONSES:</strong> address hesitant friend softly</li>
+              <li><strong class="text-black">CONCLUSION:</strong> warm call to action</li>
+            </ol>
+          </div>
+
+          <div class="p-4 bg-doodle-light border-2 border-black rounded-xl space-y-2 text-xs">
+            <h3 class="font-title font-bold text-black">section A phone call ritual:</h3>
+            <div class="space-y-1.5">
+              <label class="flex items-center space-x-2 cursor-pointer touch-target">
+                <input type="checkbox" class="rounded text-black focus:ring-black w-4 h-4 accent-black">
+                <span class="font-bold">greet politely & state purpose of call</span>
+              </label>
+              <label class="flex items-center space-x-2 cursor-pointer touch-target">
+                <input type="checkbox" class="rounded text-black focus:ring-black w-4 h-4 accent-black">
+                <span class="font-bold">ask 10-12 varied questions (horaires, tarifs, conditions)</span>
+              </label>
+              <label class="flex items-center space-x-2 cursor-pointer touch-target">
+                <input type="checkbox" class="rounded text-black focus:ring-black w-4 h-4 accent-black">
+                <span class="font-bold">thank warmly and conclude call</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="p-4 bg-doodle-light border-2 border-black rounded-xl flex justify-between items-center">
+            <div>
+              <span class="block font-title font-bold text-xs text-black">speaking timer</span>
+              <span id="eo-timer-display" class="font-title font-bold text-xl text-black">10:00</span>
+            </div>
+            <button id="btn-eo-timer" onclick="toggleEOTimer()" class="touch-target px-4 py-2 bg-black text-white font-title font-bold text-xs rounded-xl hover:bg-doodle-dark transition-all">
+              start speaking
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOG TAB -->
+      <section id="tab-log" class="tab-content hidden space-y-5">
+        <div class="bg-white doodle-box p-5 shadow-doodle space-y-4">
+          <div>
+            <span class="text-[10px] font-title font-bold uppercase tracking-wider text-black border-2 border-black px-2.5 py-0.5 rounded-full">progress audit</span>
+            <h2 class="font-title font-bold text-black text-2xl mt-1">mocks & error log</h2>
+          </div>
+
+          <!-- MOCK SCORE ENTRY -->
+          <div class="p-4 bg-doodle-light border-2 border-black rounded-xl space-y-3 text-xs">
+            <h3 class="font-title font-bold text-black">log new mock score (target: B2 / NCLC 7):</h3>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-doodle-muted font-bold mb-1">EE section:</label>
+                <select id="mock-score-ee" class="w-full p-2 bg-white border-2 border-black rounded-xl font-bold text-black">
+                  <option value="not logged">not logged</option>
+                  <option value="B1">B1</option>
+                  <option value="B2">B2 (Target)</option>
+                  <option value="C1">C1</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-doodle-muted font-bold mb-1">CO section:</label>
+                <select id="mock-score-co" class="w-full p-2 bg-white border-2 border-black rounded-xl font-bold text-black">
+                  <option value="not logged">not logged</option>
+                  <option value="B1">B1</option>
+                  <option value="B2">B2 (Target)</option>
+                  <option value="C1">C1</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-doodle-muted font-bold mb-1">CE section:</label>
+                <select id="mock-score-ce" class="w-full p-2 bg-white border-2 border-black rounded-xl font-bold text-black">
+                  <option value="not logged">not logged</option>
+                  <option value="B1">B1</option>
+                  <option value="B2">B2 (Target)</option>
+                  <option value="C1">C1</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-doodle-muted font-bold mb-1">EO section:</label>
+                <select id="mock-score-eo" class="w-full p-2 bg-white border-2 border-black rounded-xl font-bold text-black">
+                  <option value="not logged">not logged</option>
+                  <option value="B1">B1</option>
+                  <option value="B2">B2 (Target)</option>
+                  <option value="C1">C1</option>
+                </select>
+              </div>
+            </div>
+            <button onclick="saveMockEntry()" class="w-full py-2.5 bg-black text-white font-title font-bold text-xs rounded-xl shadow-doodle-sm hover:bg-doodle-dark transition-all">
+              save dated mock entry
+            </button>
+          </div>
+
+          <!-- MOCK HISTORY TREND -->
+          <div class="p-4 bg-doodle-light border-2 border-black rounded-xl space-y-2 text-xs">
+            <h3 class="font-title font-bold text-black">mock score trends vs B2 target:</h3>
+            <div id="mock-history-container" class="space-y-1.5 pt-1">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+
+          <!-- TOP CO ERROR TYPES FROM TALLY -->
+          <div class="p-4 bg-white doodle-box space-y-2 text-xs shadow-doodle">
+            <h3 class="font-title font-bold text-black">top co error patterns:</h3>
+            <ol id="top-errors-list" class="list-decimal pl-4 space-y-1 text-black font-bold">
+              <!-- Rendered dynamically -->
+            </ol>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ACCESSIBLE BOTTOM NAVIGATION BAR -->
+    <nav aria-label="Main Navigation" class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black px-1 py-1 z-40">
+      <div role="tablist" class="max-w-md mx-auto grid grid-cols-6 gap-0.5">
+        <button role="tab" aria-selected="true" aria-controls="tab-home" onclick="showTab('home')" id="nav-home" class="touch-target flex flex-col items-center justify-center p-1 rounded-lg text-white bg-black font-title font-bold transition-all">
+          <span class="text-sm">🏠</span>
+          <span class="text-[9px] font-bold mt-0.5 leading-none">home</span>
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="tab-milestones" onclick="showTab('milestones')" id="nav-milestones" class="touch-target flex flex-col items-center justify-center p-1 rounded-lg text-doodle-muted hover:text-black font-bold transition-all">
+          <span class="text-sm">📍</span>
+          <span class="text-[9px] font-bold mt-0.5 leading-none">jalons</span>
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="tab-ee" onclick="showTab('ee')" id="nav-ee" class="touch-target flex flex-col items-center justify-center p-1 rounded-lg text-doodle-muted hover:text-black font-bold transition-all">
+          <span class="text-sm">✍️</span>
+          <span class="text-[9px] font-bold mt-0.5 leading-none">EE</span>
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="tab-co" onclick="showTab('co')" id="nav-co" class="touch-target flex flex-col items-center justify-center p-1 rounded-lg text-doodle-muted hover:text-black font-bold transition-all">
+          <span class="text-sm">🎧</span>
+          <span class="text-[9px] font-bold mt-0.5 leading-none">CO</span>
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="tab-ce" onclick="showTab('ce')" id="nav-ce" class="touch-target flex flex-col items-center justify-center p-1 rounded-lg text-doodle-muted hover:text-black font-bold transition-all">
+          <span class="text-sm">📖</span>
+          <span class="text-[9px] font-bold mt-0.5 leading-none">CE</span>
+        </button>
+        <button role="tab" aria-selected="false" aria-controls="tab-eo" onclick="showTab('eo')" id="nav-eo" class="touch-target flex flex-col items-center justify-center p-1 rounded-lg text-doodle-muted hover:text-black font-bold transition-all">
+          <span class="text-sm">🗣️</span>
+          <span class="text-[9px] font-bold mt-0.5 leading-none">EO</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- RESCHEDULE MODAL -->
+  <div id="reschedule-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white doodle-box p-6 max-w-sm w-full space-y-4 shadow-doodle-lg">
+      <div class="flex justify-between items-center">
+        <h3 class="font-title font-bold text-black text-xl">pick a new date</h3>
+        <button onclick="closeRescheduleModal()" class="text-black hover:text-doodle-muted text-2xl font-bold">&times;</button>
+      </div>
+      <p class="text-xs text-doodle-muted">life happens! adjust your pace without stress or penalty.</p>
+      
+      <div>
+        <label for="new-milestone-date" class="block text-xs font-title font-bold text-black mb-1">new target date:</label>
+        <input type="date" id="new-milestone-date" class="w-full p-3 bg-white border-2 border-black rounded-xl text-xs font-title font-bold text-black focus:outline-none">
+      </div>
+
+      <div class="flex space-x-2 pt-2">
+        <button onclick="closeRescheduleModal()" class="flex-1 py-3 bg-doodle-light text-black font-title font-bold text-xs border-2 border-black rounded-xl hover:bg-white transition-all">
+          cancel
+        </button>
+        <button onclick="confirmReschedule()" class="flex-1 py-3 bg-black text-white font-title font-bold text-xs rounded-xl hover:bg-doodle-dark transition-all shadow-doodle-sm">
+          save date
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY LINKS & BACKUP SETTINGS MODAL -->
+  <div id="links-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white doodle-box p-6 max-w-md w-full space-y-4 shadow-doodle-lg max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b-2 border-black pb-3">
+        <div>
+          <h3 class="font-title font-bold text-black text-xl flex items-center gap-2">
+            <span>⚙️</span> study links & backup
+          </h3>
+          <p class="text-xs text-doodle-muted">drive docs, vocabulary lists & progress codes</p>
+        </div>
+        <button onclick="closeLinksModal()" class="text-black hover:text-doodle-muted text-2xl font-bold">&times;</button>
+      </div>
+
+      <p class="text-[11px] text-black bg-doodle-light p-3 border-2 border-black rounded-xl font-bold">
+        💡 paste your private https:// links below (Google Drive, Notion, Sheets). They stay strictly stored in your browser's local storage.
+      </p>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-title font-bold text-black mb-1">📒 My Lexique (Vocab Sheet/Notion):</label>
+          <input type="url" id="link-input-lexique" placeholder="https://docs.google.com/..." class="w-full p-2.5 bg-white border-2 border-black rounded-xl font-mono text-[11px] focus:outline-none">
+        </div>
+        <div>
+          <label class="block font-title font-bold text-black mb-1">📝 EE Templates & Outlines:</label>
+          <input type="url" id="link-input-eeTemplates" placeholder="https://drive.google.com/..." class="w-full p-2.5 bg-white border-2 border-black rounded-xl font-mono text-[11px] focus:outline-none">
+        </div>
+        <div>
+          <label class="block font-title font-bold text-black mb-1">📊 Error Log Spreadsheet:</label>
+          <input type="url" id="link-input-errorLog" placeholder="https://docs.google.com/spreadsheets/..." class="w-full p-2.5 bg-white border-2 border-black rounded-xl font-mono text-[11px] focus:outline-none">
+        </div>
+        <div>
+          <label class="block font-title font-bold text-black mb-1">📁 Mock Tests Folder:</label>
+          <input type="url" id="link-input-mockFolder" placeholder="https://drive.google.com/drive/folders/..." class="w-full p-2.5 bg-white border-2 border-black rounded-xl font-mono text-[11px] focus:outline-none">
+        </div>
+        <div>
+          <label class="block font-title font-bold text-black mb-1">📖 CE Reading Resource:</label>
+          <input type="url" id="link-input-readingSource" placeholder="https://www.lemonde.fr..." class="w-full p-2.5 bg-white border-2 border-black rounded-xl font-mono text-[11px] focus:outline-none">
+        </div>
+      </div>
+
+      <!-- FEATURE 4: BACKUP CODE SECTION -->
+      <div class="border-t-2 border-black pt-3 space-y-2 text-xs">
+        <h4 class="font-title font-bold text-black text-sm flex items-center gap-1.5">
+          <span>📦</span> backup my progress
+        </h4>
+        <p class="text-[11px] text-doodle-muted">copy your encrypted backup string to transfer progress across browsers.</p>
+        
+        <div class="flex space-x-2">
+          <button onclick="copyBackupCode()" class="px-3 py-2 bg-black text-white font-title font-bold rounded-xl text-xs hover:bg-doodle-dark transition-all flex-shrink-0 shadow-doodle-sm">
+            📋 copy code
+          </button>
+          <input type="text" id="backup-code-export" readonly placeholder="click copy code to generate..." class="flex-1 p-2 bg-doodle-light border-2 border-black rounded-xl font-mono text-[10px] select-all">
+        </div>
+
+        <div class="pt-2 space-y-1.5">
+          <label class="block font-title font-bold text-black">restore from code:</label>
+          <div class="flex space-x-2">
+            <input type="text" id="backup-code-import" placeholder="paste your backup code here..." class="flex-1 p-2 bg-white border-2 border-black rounded-xl font-mono text-[10px] focus:outline-none">
+            <button onclick="restoreBackupCode()" class="px-3 py-2 bg-white border-2 border-black text-black font-title font-bold rounded-xl text-xs hover:bg-doodle-light transition-all flex-shrink-0 shadow-doodle-sm">
+              restore
+            </button>
+          </div>
+        </div>
+
+        <div id="backup-status-msg" class="hidden p-2 rounded-xl text-[11px] font-bold border-2 border-black"></div>
+      </div>
+
+      <div class="flex space-x-2 pt-2 border-t-2 border-black">
+        <button onclick="closeLinksModal()" class="flex-1 py-2.5 bg-doodle-light border-2 border-black text-black font-title font-bold text-xs rounded-xl hover:bg-white">
+          cancel
+        </button>
+        <button onclick="saveUserLinks()" class="flex-1 py-2.5 bg-black text-white font-title font-bold text-xs rounded-xl hover:bg-doodle-dark shadow-doodle-sm">
+          save settings
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WALLPAPER EXPORT MODAL -->
+  <div id="wallpaper-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white doodle-box p-6 max-w-md w-full space-y-4 shadow-doodle-lg">
+      <div class="flex justify-between items-center">
+        <h3 class="font-title font-bold text-black text-xl flex items-center gap-2">
+          <span>🖼️</span> download lock wallpaper
+        </h3>
+        <button onclick="closeWallpaperModal()" class="text-black hover:text-doodle-muted text-2xl font-bold">&times;</button>
+      </div>
+      <p class="text-xs text-doodle-muted">generates a crisp black and white doodle lock screen wallpaper with your exact milestones. Top 35% & bottom 10% kept clean for your clock & dock.</p>
+      
+      <div class="space-y-2">
+        <label class="block text-xs font-title font-bold text-black">choose your device size:</label>
+        <div class="grid grid-cols-1 gap-2">
+          <button onclick="generateWallpaper('iphone')" class="touch-target p-3 rounded-xl bg-white border-2 border-black flex justify-between items-center hover:bg-doodle-light transition-all text-left shadow-doodle-sm">
+            <div>
+              <p class="font-title font-bold text-xs text-black">iPhone 15 / Pro / Plus</p>
+              <p class="text-[10px] text-doodle-muted">1179 × 2556 px (Vertical lock screen)</p>
+            </div>
+            <span class="text-xs font-title font-bold text-black">download →</span>
+          </button>
+          
+          <!-- FEATURE 5: IPHONE NIGHT WALLPAPER PRESET -->
+          <button onclick="generateWallpaper('iphone-night')" class="touch-target p-3 rounded-xl bg-black border-2 border-black text-white flex justify-between items-center hover:bg-doodle-dark transition-all text-left shadow-doodle-sm">
+            <div>
+              <p class="font-title font-bold text-xs text-white">iPhone Night (OLED Dark Mode)</p>
+              <p class="text-[10px] text-doodle-light">1179 × 2556 px (Inverted black theme)</p>
+            </div>
+            <span class="text-xs font-title font-bold text-white">download →</span>
+          </button>
+
+          <button onclick="generateWallpaper('pixel')" class="touch-target p-3 rounded-xl bg-white border-2 border-black flex justify-between items-center hover:bg-doodle-light transition-all text-left shadow-doodle-sm">
+            <div>
+              <p class="font-title font-bold text-xs text-black">Pixel 8 / Android</p>
+              <p class="text-[10px] text-doodle-muted">1080 × 2400 px (Vertical lock screen)</p>
+            </div>
+            <span class="text-xs font-title font-bold text-black">download →</span>
+          </button>
+          <button onclick="generateWallpaper('desktop')" class="touch-target p-3 rounded-xl bg-white border-2 border-black flex justify-between items-center hover:bg-doodle-light transition-all text-left shadow-doodle-sm">
+            <div>
+              <p class="font-title font-bold text-xs text-black">Computer Desktop</p>
+              <p class="text-[10px] text-doodle-muted">1920 × 1080 px (Centered-left for icons)</p>
+            </div>
+            <span class="text-xs font-title font-bold text-black">download →</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-2">
+        <button onclick="closeWallpaperModal()" class="px-4 py-2 bg-doodle-light border-2 border-black text-black font-title font-bold text-xs rounded-xl hover:bg-white">
+          close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="wallpaper-canvas" class="hidden"></canvas>
+
+  <!-- JAVASCRIPT APP LOGIC -->
+  <script>
+    // --- HELPER DATE MATH ---
+    function daysUntil(isoDateStr) {
+      const now = new Date();
+      const todayLocalMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      
+      const parts = isoDateStr.split('-');
+      const targetLocalMidnight = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+
+      const diffMs = targetLocalMidnight - todayLocalMidnight;
+      return Math.round(diffMs / (1000 * 60 * 60 * 24));
+    }
+
+    function getLocalTodayISO() {
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function getMondayOfCurrentWeek(dateObj) {
+      const d = new Date(dateObj);
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      const monday = new Date(d.setDate(diff));
+      return `${monday.getFullYear()}-${String(monday.getMonth() + 1).padStart(2, '0')}-${String(monday.getDate()).padStart(2, '0')}`;
+    }
+
+    function formatShortLocalDate(isoDateStr) {
+      if (!isoDateStr) return '';
+      const parts = isoDateStr.split('-');
+      const dObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+      return dObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    // --- APP STATE & CONSTANTS ---
+    const TARGET_DATE_STR = "2026-12-31";
+    
+    // PUBLIC DEFAULT LINKS
+    const PUBLIC_LINKS = {
+      rfi: { url: "https://francaisfacile.rfi.fr/", label: "RFI Journal", icon: "🎧" },
+      anki: { url: "https://ankiweb.net/decks", label: "Anki Decks", icon: "🃏" },
+      ytEE: { url: `https://www.youtube.com/results?search_query=${encodeURIComponent("TEF Canada expression écrite section A")}`, label: "EE YouTube", icon: "▶️" },
+      ytCO: { url: `https://www.youtube.com/results?search_query=${encodeURIComponent("TEF Canada compréhension orale entraînement")}`, label: "CO YouTube", icon: "▶️" },
+      ytEO: { url: `https://www.youtube.com/results?search_query=${encodeURIComponent("TEF Canada expression orale section B")}`, label: "EO YouTube", icon: "▶️" }
+    };
+
+    const USER_LINK_DEFS = {
+      lexique: { label: "My lexique", icon: "📒" },
+      eeTemplates: { label: "EE templates", icon: "📁" },
+      errorLog: { label: "Error log", icon: "📁" },
+      mockFolder: { label: "Mock tests", icon: "📁" },
+      readingSource: { label: "Reading source", icon: "🌐" }
+    };
+
+    let MILESTONES = [
+      { id: 1, dateStr: "2026-11-19", label: "Foundations fixed", tag: "MISE EN PLACE" },
+      { id: 2, dateStr: "2026-11-29", label: "Full Mock 1", tag: "TASTING" },
+      { id: 3, dateStr: "2026-12-11", label: "Consigne audit", tag: "PLATING" },
+      { id: 4, dateStr: "2026-12-24", label: "Full Mock 2", tag: "FINAL PASS" },
+      { id: 5, dateStr: "2026-12-31", label: "[PICK ONE: Exam day / Exam window opens]", tag: "SERVICE" }
+    ];
+
+    const WEEKLY_TASKS = [
+      {
+        startDate: "2026-11-09", endDate: "2026-11-15", weekNum: 1,
+        tasks: [
+          { short: "Anki + RFI 10 words", full: "Anki cards + RFI Journal (10 words) [30m]", linkKeys: ["anki", "rfi"] },
+          { short: "EE Sec A ritual + draft", full: "EE Section A: Write ritual (QUI/QUOI/OÙ) + 80-word draft [30m]", linkKeys: ["eeTemplates", "ytEE"], timerTab: "ee" },
+          { short: "CO opinion traps drill", full: "CO Drill: Listen to 3 audio clips, spot absolute vs conditional [30m]", linkKeys: ["rfi", "ytCO"] }
+        ]
+      },
+      {
+        startDate: "2026-11-16", endDate: "2026-11-22", weekNum: 2,
+        tasks: [
+          { short: "EE sentence length check", full: "EE Section A: Check draft for sentence lengths (<12 words) [30m]", linkKeys: ["eeTemplates", "ytEE"], timerTab: "ee" },
+          { short: "CO keyword trap audit", full: "CO Drill: Re-listen to failed audio items; transcribe traps [30m]", linkKeys: ["rfi", "ytCO"] },
+          { short: "EO Sec A info call", full: "EO Section A: Practice 5 quick question-asking prompts out loud [30m]", linkKeys: ["eeTemplates", "ytEO"], timerTab: "eo" }
+        ]
+      },
+      {
+        startDate: "2026-11-23", endDate: "2026-11-29", weekNum: 3,
+        tasks: [
+          { short: "EE Sec B essay draft", full: "EE Section B: Write 1 argument outline + essay (No greetings) [45m]", linkKeys: ["eeTemplates", "ytEE"], timerTab: "ee" },
+          { short: "CE 15 timed questions", full: "CE Drill: Complete 15 timed B2 questions [30m]", linkKeys: ["readingSource"], timerTab: "ce" },
+          { short: "Anki vocabulary review", full: "Anki cards + vocabulary review [15m]", linkKeys: ["anki", "lexique"] }
+        ]
+      },
+      {
+        startDate: "2026-11-30", endDate: "2026-12-06", weekNum: 4,
+        tasks: [
+          { short: "EE prompt detail audit", full: "EE Section A: Rewrite past story using correct prompt details only [30m]", linkKeys: ["eeTemplates", "ytEE"], timerTab: "ee" },
+          { short: "CO speaker purpose drill", full: "CO Drill: Analyze speaker purpose vs main subject on 5 tracks [30m]", linkKeys: ["rfi", "ytCO"] },
+          { short: "EO Sec B debate pitch", full: "EO Section B: Record 10-minute argumentation on debate topic [30m]", linkKeys: ["eeTemplates", "ytEO"], timerTab: "eo" }
+        ]
+      },
+      {
+        startDate: "2026-12-07", endDate: "2026-12-13", weekNum: 5,
+        tasks: [
+          { short: "EE timed essay + grammar", full: "EE Section B: Timed essay (40 mins max) + 5 min grammar audit [45m]", linkKeys: ["eeTemplates", "ytEE"], timerTab: "ee" },
+          { short: "CO listening tone drill", full: "CO Drill: Section 3/4 listening passages focusing on tone [30m]", linkKeys: ["rfi", "ytCO"] },
+          { short: "CE speed reading", full: "CE Drill: Timed speed-reading exercise [15m]", linkKeys: ["readingSource"], timerTab: "ce" }
+        ]
+      },
+      {
+        startDate: "2026-12-14", endDate: "2026-12-20", weekNum: 6,
+        tasks: [
+          { short: "EE ritual template drill", full: "EE: Write out ritual template on scratch paper 3 times [20m]", linkKeys: ["eeTemplates", "ytEE"], timerTab: "ee" },
+          { short: "CO exam condition set", full: "CO Drill: Mixed listening set under exam conditions [40m]", linkKeys: ["rfi", "ytCO"] },
+          { short: "Anki + RFI review", full: "Anki cards + RFI Journal review [30m]", linkKeys: ["anki", "rfi"] }
+        ]
+      },
+      {
+        startDate: "2026-12-21", endDate: "2026-12-27", weekNum: 7,
+        tasks: [
+          { short: "Full Mock 2 & fix-up", full: "Complete Mock 2 (Dec 24) or log errors (Dec 25) [Full budget]", linkKeys: ["mockFolder", "errorLog"] },
+          { short: "EE past tense audit", full: "EE: Review top 5 recurring agreement/auxiliary errors [30m]", linkKeys: ["eeTemplates", "errorLog"], timerTab: "ee" },
+          { short: "EO voice warm-up", full: "EO: Light template warm-up out loud [15m]", linkKeys: ["eeTemplates", "ytEO"], timerTab: "eo" }
+        ]
+      },
+      {
+        startDate: "2026-12-28", endDate: "2026-12-31", weekNum: 8,
+        tasks: [
+          { short: "Light Anki review", full: "Review Anki flashcards [20m]", linkKeys: ["anki", "lexique"] },
+          { short: "Error log review", full: "Read over error log (no writing) [20m]", linkKeys: ["errorLog"] },
+          { short: "RFI light maintenance", full: "Listen to RFI Journal for light maintenance [20m]", linkKeys: ["rfi"] }
+        ]
+      }
+    ];
+
+    const CE_THEMES = [
+      "Environment & Climate Change",
+      "Technology & Social Media",
+      "Remote Work & Future of Work",
+      "Health & Well-being",
+      "Education & Lifelong Learning",
+      "Consumption & Money Management",
+      "Urban Life & Housing",
+      "Life in a New Country",
+      "Family & Society",
+      "Argumentation Connectors"
+    ];
+
+    const EO_TOPICS = [
+      "Activité / Loisir: S'inscrire à un cours de poterie du week-end",
+      "Bénévolat / Entraide: Participer à une collecte alimentaire du quartier",
+      "Argent / Travail: Tester une semaine de travail de 4 jours",
+      "Produit / Service: Utiliser un abonnement de vélos en libre-service"
+    ];
+
+    let state = {
+      soundEnabled: false,
+      weeklyTrackerDate: "", 
+      showedUpDays: [false, false, false, false, false, false, false],
+      completedMilestones: [],
+      dailyChecked: {},
+      restDays: {},
+      eeCurrentSection: 'A',
+      coWords: [],
+      coErrors: { keyword: 0, purpose: 0, conditional: 0 },
+      coRFIChecked: false,
+      ceAnkiChecked: false,
+      mockScoresHistory: [],
+      lastWallpaperExportDate: "",
+      sundayWeakSections: {},
+      userLinks: {
+        lexique: "",
+        eeTemplates: "",
+        errorLog: "",
+        mockFolder: "",
+        readingSource: ""
+      }
+    };
+
+    let activeRescheduleId = null;
+
+    function playSoftClick() {
+      if (!state.soundEnabled) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(300, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.04);
+        gain.gain.setValueAtTime(0.04, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.04);
+      } catch(e) {}
+    }
+
+    function triggerConfetti() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 25, spread: 40, origin: { y: 0.7 }, colors: ['#000000', '#5A5A5A', '#888888'] });
+      }
+    }
+
+    function toggleSound() {
+      state.soundEnabled = !state.soundEnabled;
+      document.getElementById('sound-icon').innerText = state.soundEnabled ? '🔊' : '🔇';
+      if (state.soundEnabled) playSoftClick();
+      saveState();
+    }
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem('tef_prep_app_doodle_v1');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          state = { 
+            ...state, 
+            ...parsed,
+            userLinks: { ...state.userLinks, ...(parsed.userLinks || {}) },
+            sundayWeakSections: parsed.sundayWeakSections || {}
+          };
+        }
+      } catch(e) {
+        console.warn("LocalStorage read error for app state:", e);
+      }
+
+      try {
+        const savedMilestones = localStorage.getItem('tef_prep_milestones_doodle_v1');
+        if (savedMilestones) {
+          const parsedMilestones = JSON.parse(savedMilestones);
+          if (Array.isArray(parsedMilestones) && parsedMilestones.length === 5) {
+            MILESTONES = parsedMilestones;
+          }
+        }
+      } catch(e) {
+        console.warn("LocalStorage read error for milestones:", e);
+      }
+
+      const currentMonday = getMondayOfCurrentWeek(new Date());
+      if (state.weeklyTrackerDate !== currentMonday) {
+        state.weeklyTrackerDate = currentMonday;
+        state.showedUpDays = [false, false, false, false, false, false, false];
+      }
+    }
+
+    function saveState() {
+      try {
+        const stateToSave = { ...state };
+        delete stateToSave.eeTimerRunning;
+        delete stateToSave.ceTimerRunning;
+        delete stateToSave.eoTimerRunning;
+        delete stateToSave.currentView;
+
+        localStorage.setItem('tef_prep_app_doodle_v1', JSON.stringify(stateToSave));
+        localStorage.setItem('tef_prep_milestones_doodle_v1', JSON.stringify(MILESTONES));
+      } catch(e) {
+        console.warn("LocalStorage write error:", e);
+      }
+    }
+
+    function getResolvedLink(key) {
+      if (PUBLIC_LINKS[key]) return PUBLIC_LINKS[key];
+      if (USER_LINK_DEFS[key]) {
+        const customUrl = state.userLinks[key];
+        if (customUrl && customUrl.startsWith('https://')) {
+          return {
+            url: customUrl,
+            label: USER_LINK_DEFS[key].label,
+            icon: USER_LINK_DEFS[key].icon
+          };
+        }
+        if (key === 'readingSource') {
+          return PUBLIC_LINKS.rfi;
+        }
+        return { isBlank: true, key, label: USER_LINK_DEFS[key].label };
+      }
+      return null;
+    }
+
+    function renderTaskLinkIcons(linkKeys, isLockView = false) {
+      if (!linkKeys || linkKeys.length === 0) return '';
+      
+      let html = '<span class="inline-flex items-center space-x-1 ml-1 flex-shrink-0" onclick="event.stopPropagation()">';
+      let count = 0;
+
+      for (const key of linkKeys) {
+        if (count >= 2) break;
+        const link = getResolvedLink(key);
+        if (!link) continue;
+
+        if (link.isBlank) {
+          if (!isLockView) {
+            html += `
+              <button onclick="openLinksModal(); event.stopPropagation();" 
+                      title="Add ${link.label}" aria-label="add link for ${link.label}"
+                      class="w-6 h-6 rounded border border-dashed border-black flex items-center justify-center text-[9px] font-bold text-black hover:bg-black hover:text-white transition-all touch-target">
+                +🔗
+              </button>
+            `;
+            count++;
+          }
+        } else {
+          html += `
+            <a href="${link.url}" target="_blank" rel="noopener noreferrer" 
+               aria-label="open ${link.label}" title="open ${link.label}"
+               onclick="event.stopPropagation()"
+               class="w-6 h-6 rounded bg-white border border-black flex items-center justify-center text-[10px] hover:bg-black hover:text-white transition-all touch-target">
+              ${link.icon}
+            </a>
+          `;
+          count++;
+        }
+      }
+
+      html += '</span>';
+      return count > 0 ? html : '';
+    }
+
+    function checkURLParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const viewParam = urlParams.get('view');
+      if (viewParam === 'app') {
+        switchView('app');
+      } else {
+        switchView('lock');
+      }
+    }
+
+    function switchView(viewName) {
+      playSoftClick();
+      const lockEl = document.getElementById('view-lockscreen');
+      const appEl = document.getElementById('view-app');
+
+      if (viewName === 'app') {
+        lockEl.classList.add('hidden');
+        appEl.classList.remove('hidden');
+      } else {
+        appEl.classList.add('hidden');
+        lockEl.classList.remove('hidden');
+        renderLockScreen();
+      }
+    }
+
+    function getTodayTaskObjects() {
+      const todayISO = getLocalTodayISO();
+      const matchedMilestone = MILESTONES.find(m => m.dateStr === todayISO);
+      
+      let weekPlan = WEEKLY_TASKS.find(w => todayISO >= w.startDate && todayISO <= w.endDate);
+      if (!weekPlan) weekPlan = WEEKLY_TASKS[0];
+
+      let tasks = [...weekPlan.tasks];
+
+      if (matchedMilestone) {
+        tasks[0] = {
+          short: `Milestone: ${matchedMilestone.label}`,
+          full: `📌 Milestone Today: ${matchedMilestone.label} (${matchedMilestone.tag})`,
+          linkKeys: ["mockFolder", "errorLog"]
+        };
+      }
+
+      return tasks;
+    }
+
+    function renderLockScreen() {
+      try {
+        const todayISO = getLocalTodayISO();
+        const overallDiff = daysUntil(TARGET_DATE_STR);
+        
+        let countdownText = "";
+        if (overallDiff === 0) countdownText = "today is exam day";
+        else if (overallDiff < 0) countdownText = "catch up";
+        else countdownText = `${overallDiff} days to go`;
+
+        const pillEl = document.getElementById('lock-countdown-pill');
+        if (pillEl) pillEl.innerText = countdownText;
+
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const mins = now.getMinutes().toString().padStart(2, '0');
+        const clockTimeEl = document.getElementById('preview-clock-time');
+        if (clockTimeEl) clockTimeEl.innerText = `${hours}:${mins}`;
+
+        const dateOpts = { weekday: 'long', month: 'long', day: 'numeric' };
+        const clockDateEl = document.getElementById('preview-clock-date');
+        if (clockDateEl) clockDateEl.innerText = now.toLocaleDateString('en-US', dateOpts);
+
+        // Render visible interactive checklist on lockscreen
+        const tasks = getTodayTaskObjects();
+        const checkedList = state.dailyChecked[todayISO] || [false, false, false];
+        const lockChecklistItems = document.getElementById('lock-checklist-items');
+        const lockChecklistProgress = document.getElementById('lock-checklist-progress');
+
+        if (lockChecklistItems) {
+          lockChecklistItems.innerHTML = '';
+          let doneCount = 0;
+
+          tasks.forEach((task, idx) => {
+            const isChecked = checkedList[idx] || false;
+            if (isChecked) doneCount++;
+
+            const item = document.createElement('label');
+            item.className = `flex items-center space-x-2 p-1.5 rounded-lg border border-black transition-all cursor-pointer ${
+              isChecked ? 'bg-doodle-light opacity-60 text-doodle-muted line-through' : 'bg-white text-black font-bold'
+            }`;
+            
+            item.innerHTML = `
+              <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleTaskCheck('${todayISO}', ${idx})" class="rounded text-black focus:ring-black w-3.5 h-3.5 accent-black flex-shrink-0">
+              <span class="truncate text-[11px] leading-tight flex-1">${task.short}</span>
+              ${renderTaskLinkIcons(task.linkKeys, true)}
+            `;
+            lockChecklistItems.appendChild(item);
+          });
+
+          if (lockChecklistProgress) {
+            lockChecklistProgress.innerText = `${doneCount}/${tasks.length}`;
+          }
+        }
+
+        const container = document.getElementById('lock-milestones-container');
+        if (container) {
+          container.innerHTML = '';
+
+          let nextHighlighted = false;
+          let doneCount = 0;
+
+          MILESTONES.forEach(m => {
+            const isDone = state.completedMilestones.includes(m.id);
+            if (isDone) doneCount++;
+
+            const mDiff = daysUntil(m.dateStr);
+
+            let isNextActive = false;
+            if (!isDone && !nextHighlighted) {
+              isNextActive = true;
+              nextHighlighted = true;
+            }
+
+            const row = document.createElement('div');
+            row.onclick = () => toggleMilestone(m.id);
+            row.className = `px-3 py-1.5 border-2 border-black rounded-xl flex items-center justify-between transition-all cursor-pointer touch-target text-xs sm:text-sm ${
+              isDone ? 'bg-doodle-light opacity-50' :
+              isNextActive ? 'bg-black text-white font-bold shadow-doodle-sm' :
+              'bg-white text-black shadow-doodle-sm'
+            }`;
+
+            const dParts = m.dateStr.split('-');
+            const dObj = new Date(parseInt(dParts[0]), parseInt(dParts[1]) - 1, parseInt(dParts[2]));
+            const shortDate = dObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+            let tagDisplay = "";
+            if (isDone) tagDisplay = '✓';
+            else if (mDiff === 0) tagDisplay = 'today';
+            else if (mDiff < 0) tagDisplay = 'catch up';
+            else tagDisplay = `T-${mDiff}d`;
+
+            row.innerHTML = `
+              <div class="flex items-center space-x-2.5 min-w-0 flex-1 mr-2">
+                <input type="checkbox" ${isDone ? 'checked' : ''} class="rounded text-black focus:ring-black w-4 h-4 flex-shrink-0 pointer-events-none accent-black">
+                <div class="min-w-0">
+                  <div class="flex items-center space-x-1.5 leading-tight">
+                    <span class="font-title font-bold ${isNextActive ? 'text-white' : 'text-doodle-muted'}">${shortDate}</span>
+                    <span class="font-bold truncate">${m.label}</span>
+                  </div>
+                  <span class="text-xs font-title font-bold uppercase tracking-wider block ${isNextActive ? 'text-doodle-light' : 'text-doodle-muted'}">${m.tag}</span>
+                </div>
+              </div>
+              <span class="font-title font-bold flex-shrink-0 text-xs sm:text-sm">
+                ${tagDisplay}
+              </span>
+            `;
+            container.appendChild(row);
+          });
+
+          let dotsStr = '';
+          for (let i = 0; i < 5; i++) {
+            dotsStr += i < doneCount ? '●' : '○';
+          }
+          const dotsDisplayEl = document.getElementById('lock-dots-display');
+          if (dotsDisplayEl) dotsDisplayEl.innerText = dotsStr;
+          
+          const dotsCountEl = document.getElementById('lock-dots-count');
+          if (dotsCountEl) dotsCountEl.innerText = `${doneCount} of 5 done`;
+        }
+      } catch(e) {
+        console.warn("Error rendering lockscreen:", e);
+      }
+    }
+
+    function toggleTaskCheck(dateStr, idx) {
+      playSoftClick();
+      if (!state.dailyChecked[dateStr]) {
+        state.dailyChecked[dateStr] = [false, false, false];
+      }
+      state.dailyChecked[dateStr][idx] = !state.dailyChecked[dateStr][idx];
+
+      const currentDayIdx = (new Date().getDay() + 6) % 7;
+      state.showedUpDays[currentDayIdx] = true;
+
+      saveState();
+      renderTodayTasks();
+      renderLockScreen();
+      triggerConfetti();
+    }
+
+    function renderTodayTasks() {
+      const todayISO = getLocalTodayISO();
+      const tasks = getTodayTaskObjects();
+
+      const isRestDay = state.restDays[todayISO];
+      const checkedList = state.dailyChecked[todayISO] || [false, false, false];
+      const container = document.getElementById('today-tasks-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (isRestDay) {
+        container.innerHTML = `
+          <div class="p-4 bg-doodle-light border-2 border-black rounded-xl text-center space-y-1">
+            <span class="text-xl">🍵</span>
+            <p class="font-title font-bold text-xs text-black">rest day logged!</p>
+            <p class="text-[11px] text-doodle-muted">resting keeps your focus sharp for tomorrow.</p>
+          </div>
+        `;
+        document.getElementById('task-progress-count').innerText = "rest & reset";
+        document.getElementById('today-progress-bar').style.width = "100%";
+        document.getElementById('today-microcopy').innerText = "nice, rest is part of the plan ✨";
+        return;
+      }
+
+      let doneCount = 0;
+
+      tasks.forEach((tObj, idx) => {
+        const isChecked = checkedList[idx] || false;
+        if (isChecked) doneCount++;
+
+        const taskEl = document.createElement('label');
+        taskEl.className = `flex items-center space-x-2.5 p-3 border-2 border-black rounded-xl transition-all cursor-pointer touch-target justify-between ${
+          isChecked ? 'bg-doodle-light opacity-50 text-doodle-muted' : 'bg-white text-black shadow-doodle-sm'
+        }`;
+
+        const iconsHtml = renderTaskLinkIcons(tObj.linkKeys);
+
+        taskEl.innerHTML = `
+          <div class="flex items-center space-x-2.5 flex-1 min-w-0">
+            <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleTaskCheck('${todayISO}', ${idx})" class="rounded text-black focus:ring-black w-5 h-5 flex-shrink-0 accent-black">
+            <span class="text-xs font-bold leading-snug truncate">${tObj.full}</span>
+          </div>
+          <div class="flex items-center flex-shrink-0">
+            ${iconsHtml}
+          </div>
+        `;
+        container.appendChild(taskEl);
+      });
+
+      document.getElementById('task-progress-count').innerText = `${doneCount} of 3 done`;
+      document.getElementById('today-progress-bar').style.width = `${(doneCount / 3) * 100}%`;
+    }
+
+    function toggleMilestone(id) {
+      playSoftClick();
+      if (state.completedMilestones.includes(id)) {
+        state.completedMilestones = state.completedMilestones.filter(mId => mId !== id);
+      } else {
+        state.completedMilestones.push(id);
+      }
+      saveState();
+      renderLockScreen();
+    }
+
+    function showTab(tabId) {
+      playSoftClick();
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      const activeTab = document.getElementById(`tab-${tabId}`);
+      if (activeTab) activeTab.classList.remove('hidden');
+
+      const navButtons = ['home', 'milestones', 'ee', 'co', 'ce', 'eo'];
+      navButtons.forEach(id => {
+        const btn = document.getElementById(`nav-${id}`);
+        if (btn) {
+          if (id === tabId) {
+            btn.className = "touch-target flex flex-col items-center justify-center p-1 rounded-lg text-white bg-black font-title font-bold transition-all";
+            btn.setAttribute('aria-selected', 'true');
+          } else {
+            btn.className = "touch-target flex flex-col items-center justify-center p-1 rounded-lg text-doodle-muted hover:text-black font-bold transition-all";
+            btn.setAttribute('aria-selected', 'false');
+          }
+        }
+      });
+    }
+
+    // Modal Triggers
+    function openLinksModal() { document.getElementById('links-modal').classList.remove('hidden'); }
+    function closeLinksModal() { document.getElementById('links-modal').classList.add('hidden'); }
+    function openWallpaperModal() { document.getElementById('wallpaper-modal').classList.remove('hidden'); }
+    function closeWallpaperModal() { document.getElementById('wallpaper-modal').classList.add('hidden'); }
+
+    loadState();
+    renderLockScreen();
+
+    window.onload = function() {
+      try {
+        renderTodayTasks();
+        checkURLParams();
+      } catch(e) {
+        console.warn("Init error:", e);
+      }
+    };
+  </script>
+</body>
+</html>
